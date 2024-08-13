@@ -22,4 +22,6 @@ client.close()
 
 # Demo
 
+[Demo地址](https://imnull.github.io/broadcast/#/live-canvas/live-canvas/red)
+
 ![Demo](./images/demo.gif)
