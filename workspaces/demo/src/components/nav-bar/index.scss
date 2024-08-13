@@ -1,0 +1,21 @@
+.menu {
+    display: flex;
+    flex-direction: row;
+    background-color: #039;
+    font-size: 15px;
+    .menu-item {
+        padding: 10px 15px;
+        color: #eee;
+        text-decoration: none;
+        &:hover {
+            color: #fff;
+        }
+        &.active {
+            background-color: #eee;
+            color: #333;
+            &:hover {
+                color: #000;
+            }
+        }
+    }
+}
