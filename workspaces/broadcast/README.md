@@ -16,7 +16,7 @@ client.ondata = (event) => {
 client.sendData({ command: 'reset' })
 client.close()
 ```
-具体技术细节可参考`BroadcastChannel`相关文档，内部的`TypedBroadcastChannel`仅对交互数据做了抢类型封装。
+具体技术细节可参考`BroadcastChannel`相关文档，内部的`TypedBroadcastChannel`仅对交互数据做了强类型封装。
 
 # Demo
 

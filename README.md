@@ -1,4 +1,6 @@
-# @imnull/broadcast
+# @imnull/broadcast [![npm](https://img.shields.io/npm/v/@imnull/broadcast.svg)](https://www.npmjs.com/package/@imnull/broadcast)
+
+
 
 基于`BroadcastChannel`的本地跨`tab`通信工具。
 
@@ -16,7 +18,7 @@ client.ondata = (event) => {
 client.sendData({ command: 'reset' })
 client.close()
 ```
-具体技术细节可参考`BroadcastChannel`相关文档，内部的`TypedBroadcastChannel`仅对交互数据做了抢类型封装。
+具体技术细节可参考`BroadcastChannel`相关文档，内部的`TypedBroadcastChannel`仅对交互数据做了强类型封装。
 
 # Demo
 
