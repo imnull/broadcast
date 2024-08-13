@@ -2,6 +2,23 @@ import { useEffect, useState } from 'react'
 import { createChanel } from '@imnull/broadcast'
 import './index.scss'
 
+const isTouchable = typeof document?.ontouchstart === 'undefined' ? false : true
+
+const EVENT_START = isTouchable ? 'touchstart' : 'mousedown'
+const EVENT_MOVE = isTouchable ? 'touchmove' : 'mousemove'
+const EVENT_END = isTouchable ? 'touchend' : 'mouseup'
+
+const getEventPosition = (e: any) => {
+    let evt = e
+    if(e.touches && typeof e.touches.length === 'number' && e.touches.length > 0) {
+        evt = e.touches[0]
+    }
+    return {
+        clientX: evt.clientX as number,
+        clientY: evt.clientY as number,
+    }
+}
+
 type TPosition = {
     x: number;
     y: number;
@@ -15,6 +32,8 @@ type TPaintCommand = {
 } | {
     command: 'reset'
 }
+
+
 
 const drawTrack = (ctx: CanvasRenderingContext2D, to: TPosition, from: TPosition, color: string = '#222', size: number = 2) => {
     ctx.save()
@@ -44,7 +63,7 @@ export default (props: {
         channel,
         color = '#222',
         size = 2,
-        width = 640,
+        width = 360,
         height = 360,
         onCanvas,
     } = props
@@ -66,14 +85,16 @@ export default (props: {
             }
             const { left, top } = canvas.getBoundingClientRect()
             let X = 0, Y = 0, active = false
-            const mousedown = (e: MouseEvent) => {
+            const mousedown = (raw: any) => {
+                const e = getEventPosition(raw)
                 const x = e.clientX - left
                 const y = e.clientY - top
                 X = x
                 Y = y
                 active = true
             }
-            const mousemove = (e: MouseEvent) => {
+            const mousemove = (raw: any) => {
+                const e = getEventPosition(raw)
                 const x = e.clientX - left
                 const y = e.clientY - top
                 if (active) {
@@ -88,15 +109,15 @@ export default (props: {
             const mouseup = () => {
                 active = false
             }
-            canvas.addEventListener('mousedown', mousedown)
-            document.addEventListener('mouseup', mouseup)
-            document.addEventListener('mousemove', mousemove)
+            canvas.addEventListener(EVENT_START, mousedown)
+            document.addEventListener(EVENT_MOVE, mousemove)
+            document.addEventListener(EVENT_END, mouseup)
 
             return () => {
                 client.close()
-                canvas.removeEventListener('mousedown', mousedown)
-                document.removeEventListener('mouseup', mouseup)
-                document.removeEventListener('mousemove', mousemove)
+                canvas.removeEventListener(EVENT_START, mousedown)
+                document.removeEventListener(EVENT_END, mouseup)
+                document.removeEventListener(EVENT_MOVE, mousemove)
             }
         }
     }, [canvas, channel, color, size, selfSize])

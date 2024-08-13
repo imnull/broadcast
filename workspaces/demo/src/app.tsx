@@ -4,6 +4,7 @@ import NavBar from './components/nav-bar'
 import Home from './pages/home'
 import LiveCanvas from './pages/live-canvas'
 import About from './pages/about'
+import './app.scss'
 
 export default () => {
     return (
